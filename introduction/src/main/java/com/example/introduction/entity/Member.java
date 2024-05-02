@@ -18,12 +18,16 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String email;
+
     @Column
     private String name;
 
     public static Member toMemberEntity(MemberDTO memberDTO) {
         Member memberEntity = new Member();
         memberEntity.setName(memberDTO.getName());
+        memberEntity.setEmail(memberDTO.getEmail());
 
         return memberEntity;
     }

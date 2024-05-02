@@ -2,6 +2,7 @@ package com.example.introduction.controller;
 
 import com.example.introduction.dto.MemberDTO;
 import com.example.introduction.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,23 @@ public class HelloController {
     @PostMapping("/member/register")
     public String registerMember(@ModelAttribute MemberDTO memberDTO) {
         System.out.println("memberDTO = " + memberDTO);
-        memberService.save(memberDTO);
+        memberService.register(memberDTO);
         return "register";
+    }
+
+    @GetMapping("/member/login")
+    public String loginMember() {
+        return "login";
+    }
+
+    @PostMapping("/member/login")
+    public String loginMember(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+        MemberDTO loginResult = memberService.login(memberDTO);
+        if (loginResult != null) {
+            session.setAttribute("loginEmail", loginResult.getEmail());
+            return "main";
+        } else {
+            return "login";
+        }
     }
 }
