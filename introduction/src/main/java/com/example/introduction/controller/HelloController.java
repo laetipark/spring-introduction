@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class HelloController {
     private final MemberService memberService;
@@ -64,5 +66,13 @@ public class HelloController {
         } else {
             return "login";
         }
+    }
+
+    @GetMapping("/members")
+    public String findMembers(Model model) {
+        List<MemberDTO> members = memberService.findMembers();
+        model.addAttribute("memberList", members);
+
+        return "list";
     }
 }

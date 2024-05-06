@@ -6,6 +6,8 @@ import com.example.introduction.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +32,15 @@ public class MemberService {
 
         // email 조회 결과가 없는 경우
         return null;
+    }
+
+    public List<MemberDTO> findMembers() {
+        List<Member> members = memberRepository.findAll();
+        List<MemberDTO> memberDTOS = new ArrayList<>();
+        for (Member member : members) {
+            memberDTOS.add(MemberDTO.toMemberDTO(member));
+        }
+
+        return memberDTOS;
     }
 }
